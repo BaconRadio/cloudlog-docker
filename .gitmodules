@@ -1,0 +1,3 @@
+[submodule "Cloudlog"]
+	path = Cloudlog
+	url = https://github.com/magicbug/Cloudlog.git
