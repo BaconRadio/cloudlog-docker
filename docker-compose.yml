@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: cloudlog
+    restart: unless-stopped
     # persist html folder when container stops ( TODO make this work better with updated images )
     volumes:
       - www-data:/var/www/html/
