@@ -1,0 +1,40 @@
+services:
+  
+  cloudlog:
+    image: cloudlog-docker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cloudlog
+    # persist html folder when container stops ( TODO make this work better with updated images )
+    volumes:
+      - www-data:/var/www/html/
+    # depends on can be commented out if using an external database
+    depends_on:
+      - db
+    # change to <external port>:443 when using SSL with cloudlog
+    ports:
+      - 8080:80
+    
+
+  db:
+    image: mysql
+    restart: always
+    environment:
+      # Cloudlog database name
+      MYSQL_DATABASE: 'db'
+      # Database username
+      MYSQL_USER: 'user'
+      # Database password
+      MYSQL_PASSWORD: 'password'
+      # Root Password - DO NOT USE DATABASE ROOT ACCOUNT FOR THE CLOUDLOG SETUP
+      MYSQL_ROOT_PASSWORD: example
+    volumes:
+      - my-db:/var/lib/mysql
+    # NOTE: use of "mysql_native_password" is not recommended for production: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (cloudlog just dosen't work unless you use this less secure method of auth)
+    command: --default-authentication-plugin=mysql_native_password
+
+volumes:
+  my-db: {}
+  www-data: {}

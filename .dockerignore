@@ -1,0 +1,8 @@
+**/.git
+**/.github
+**/.editorconfig
+**/.gitignore
+**/.cache
+**/.DS_Store
+
+**/*.md
