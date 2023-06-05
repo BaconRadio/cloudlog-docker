@@ -9,7 +9,9 @@ services:
     restart: unless-stopped
     # persist html folder when container stops ( TODO make this work better with updated images )
     volumes:
-      - www-data:/var/www/html/
+      - cloudlog-config:/var/www/html/application/config
+      - cloudlog-backup:/var/www/html/backup
+      - cloudlog-uploads:/var/www/html/uploads
     # depends on can be commented out if using an external database
     depends_on:
       - db
@@ -20,7 +22,8 @@ services:
 
   db:
     image: mysql
-    restart: always
+    container_name: cloudlog-mysql
+    restart: unless-stopped
     environment:
       # Cloudlog database name
       MYSQL_DATABASE: 'db'
@@ -38,4 +41,6 @@ services:
 
 volumes:
   my-db: {}
-  www-data: {}
+  cloudlog-config: {}
+  cloudlog-backup: {}
+  cloudlog-uploads: {}
